@@ -5,7 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.stream.Stream;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @Builder
@@ -13,26 +17,17 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 public class Car {
 
+    @NotBlank(message = "A placa nao pode estar vazia. Preencha!!!!!!!!")
+    @Size(min = 3)
     private String placa;
+
+    @NotBlank   //string nao pode ser vazia e nem nula
+    @Size(min = 3) //string tem que ter tamanho minimo 3
     private String descricao;
+
+    @Min(2000)
+    @Max(2024)
+    @NotNull
     private int ano;
 
-
-    public static void main(String[] args) {
-//        var lista = List.of(1,2,3,4,5,6,7);
-
-        Stream<Double> randomNumbersStream = Stream.generate(Math::random);
-
-//        Stream<Integer> streamInteiros = Stream.of(1,2,3,4,5,6,7);
-
-        randomNumbersStream
-                .map(aDouble -> aDouble)
-                .limit(10)
-                .forEach(x -> {System.out.println(x);});
-
-
-
-
-
-    }
 }
