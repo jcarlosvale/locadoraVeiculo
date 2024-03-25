@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Car {
+public class CarDto {
 
     @NotBlank(message = "placa nao pode estar vazia")
     private String placa;
@@ -31,6 +31,6 @@ public class Car {
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private CategoryEnum category;
+    private CategoryEnum categoria;
 
 }

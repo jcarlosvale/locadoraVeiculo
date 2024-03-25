@@ -1,7 +1,8 @@
 package com.study.locadora.controller;
 
 
-import com.study.locadora.dto.Car;
+import com.study.locadora.dto.CarDto;
+import com.study.locadora.model.Car;
 import com.study.locadora.service.CarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+import static com.study.locadora.mapper.CarMapper.toDto;
+import static com.study.locadora.mapper.CarMapper.toEntity;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -30,33 +34,33 @@ public class CarController {
     private final CarService service;
 
     @GetMapping
-    public ResponseEntity<List<Car>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<CarDto>> findAll() {
+        return ResponseEntity.ok(toDto(service.findAll()));
     }
 
     @GetMapping(params = {"desc"})
-    public ResponseEntity<List<Car>> findByDescricao(@RequestParam("desc") final String descricao) {
+    public ResponseEntity<List<CarDto>> findByDescricao(@RequestParam("desc") final String descricao) {
         log.info(descricao);
-        return ResponseEntity.ok(service.findByDescricao(descricao));
+        return ResponseEntity.ok(toDto(service.findByDescricao(descricao)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Car> findById(@PathVariable("id") final String placa) {
-        final Optional<Car> carOptional = service.findById(placa);
-        return ResponseEntity.ok(carOptional.orElseGet(Car::new));
+    public ResponseEntity<CarDto> findById(@PathVariable("id") final String placa) {
+        final Car car = service.findById(placa).orElse(null);
+        return ResponseEntity.ok(toDto(car));
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody final Car carro) {
-        service.save(carro);
+    public ResponseEntity<Void> save(@Valid @RequestBody final CarDto carro) {
+        service.save(toEntity(carro));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Car> update(@PathVariable("id") final String placa,
-                      @Valid @RequestBody final Car carroAtualizado) {
+    public ResponseEntity<CarDto> update(@PathVariable("id") final String placa,
+                                         @Valid @RequestBody final CarDto carroAtualizado) {
 
-       final Optional<Car> optionalCar = service.update(placa, carroAtualizado);
+       final Optional<Car> optionalCar = service.update(placa, toEntity(carroAtualizado));
        if (optionalCar.isEmpty()) return ResponseEntity.notFound().build();
        return ResponseEntity.ok(carroAtualizado);
     }
