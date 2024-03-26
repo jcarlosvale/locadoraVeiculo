@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Car {
+public class CarDto {
 
     @NotBlank(message = "A placa nao pode estar vazia. Preencha!!!!!!!!")
     @Size(min = 3)

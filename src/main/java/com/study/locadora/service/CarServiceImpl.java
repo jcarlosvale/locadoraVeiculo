@@ -1,6 +1,6 @@
 package com.study.locadora.service;
 
-import com.study.locadora.dto.Car;
+import com.study.locadora.dto.CarDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,36 +12,36 @@ import java.util.Optional;
 public class CarServiceImpl implements CarService{
 
 
-    private List<Car> listaDeCarros = new ArrayList<>();
+    private List<CarDto> listaDeCarros = new ArrayList<>();
 
     @Override
-    public List<Car> findAll() {
+    public List<CarDto> findAll() {
         return listaDeCarros;
     }
 
     @Override
-    public Optional<Car> findById(final String placa) {
-        final Optional<Car> carOptional =
+    public Optional<CarDto> findById(final String placa) {
+        final Optional<CarDto> carOptional =
                 listaDeCarros.stream()
-                        .filter(car -> car.getPlaca().equals(placa))
+                        .filter(carDto -> carDto.getPlaca().equals(placa))
                         .findFirst();
         return carOptional;
     }
 
     @Override
-    public Car save(final Car carro) {
+    public CarDto save(final CarDto carro) {
         listaDeCarros.add(carro);
         return carro;
     }
 
     @Override
-    public Optional<Car> update(final String placa,
-                                final Car carroAtualizado) {
+    public Optional<CarDto> update(final String placa,
+                                   final CarDto carroAtualizado) {
 
-        final Optional<Car> carOptional = findById(placa);
+        final Optional<CarDto> carOptional = findById(placa);
 
         if (carOptional.isPresent()) {
-            final Car carroEncontrado = carOptional.get();
+            final CarDto carroEncontrado = carOptional.get();
             carroEncontrado.setAno(carroAtualizado.getAno());
             carroEncontrado.setDescricao(carroAtualizado.getDescricao());
             carroEncontrado.setPlaca(carroAtualizado.getPlaca());
@@ -52,6 +52,6 @@ public class CarServiceImpl implements CarService{
 
     @Override
     public void delete(final String placa) {
-        findById(placa).ifPresent(car -> listaDeCarros.remove(car));
+        findById(placa).ifPresent(carDto -> listaDeCarros.remove(carDto));
     }
 }

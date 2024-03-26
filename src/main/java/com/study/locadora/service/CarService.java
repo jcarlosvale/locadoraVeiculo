@@ -1,14 +1,14 @@
 package com.study.locadora.service;
 
-import com.study.locadora.dto.Car;
+import com.study.locadora.dto.CarDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CarService {
-    List<Car> findAll();
-    Optional<Car> findById(final String placa);
-    Car save(final Car carro);
-    Optional<Car> update(final String placa, final Car carroAtualizado);
+    List<CarDto> findAll();
+    Optional<CarDto> findById(final String placa);
+    CarDto save(final CarDto carro);
+    Optional<CarDto> update(final String placa, final CarDto carroAtualizado);
     void delete(final String placa);
 }
