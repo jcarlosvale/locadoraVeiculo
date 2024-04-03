@@ -2,6 +2,7 @@ package com.study.locadora.controller;
 
 
 import com.study.locadora.dto.CarDto;
+import com.study.locadora.model.Car;
 import com.study.locadora.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+import static com.study.locadora.mapper.CarMapper.toDto;
+import static com.study.locadora.mapper.CarMapper.toEntity;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/carro")
@@ -30,17 +34,17 @@ public class CarController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CarDto> getAll() {
-        return service.findAll();
+        return toDto(service.findAll());
     }
 
 
     @GetMapping("/{id}")
     public ResponseEntity<CarDto> findById(@PathVariable("id") final String placa) {
 
-        Optional<CarDto> carro = service.findById(placa);
+        Optional<Car> carro = service.findById(placa);
 
         if (carro.isPresent()) {
-            return ResponseEntity.ok(carro.get());
+            return ResponseEntity.ok(toDto(carro.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -48,19 +52,19 @@ public class CarController {
 
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid final CarDto carro) {
-        service.save(carro);
+    public ResponseEntity<Void> save(@RequestBody @Valid final CarDto dto) {
+        service.save(toEntity(dto));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CarDto> update(@PathVariable("id") final String placa,
-                         @RequestBody @Valid final CarDto carroAtualizado) {
+                         @RequestBody @Valid final CarDto dto) {
 
-        final var carro = service.update(placa, carroAtualizado);
+        final var carro = service.update(placa, toEntity(dto));
 
         if (carro.isPresent()) {
-            return ResponseEntity.ok(carro.get());
+            return ResponseEntity.ok(toDto(carro.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
