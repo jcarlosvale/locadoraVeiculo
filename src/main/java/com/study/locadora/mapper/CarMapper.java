@@ -47,4 +47,11 @@ public class CarMapper {
     }
 
 
+    public static void copy(final Car source, final Car destiny) {
+        destiny.setPlaca(source.getPlaca());
+        destiny.setAno(source.getAno());
+        destiny.setDescricao(source.getDescricao());
+    }
+
+
 }

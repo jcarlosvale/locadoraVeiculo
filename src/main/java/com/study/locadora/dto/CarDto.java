@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class CarDto {
 
-    @NotBlank(message = "A placa nao pode estar vazia. Preencha!!!!!!!!")
+    @NotBlank(message = "A placa nao pode estar vazia.")
     @Size(min = 3)
     private String placa;
 
@@ -25,7 +25,7 @@ public class CarDto {
     @Size(min = 3) //string tem que ter tamanho minimo 3
     private String descricao;
 
-    @Min(2000)
+    @Min(value=2000, message = "O ano nao pode ser menor que 2000")
     @Max(2024)
     @NotNull
     private int ano;
