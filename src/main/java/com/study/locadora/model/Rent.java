@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -25,10 +24,10 @@ public class Rent {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Customer locatario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Car carro;
 
     private ZonedDateTime dataAluguel;
