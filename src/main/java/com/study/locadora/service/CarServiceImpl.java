@@ -1,5 +1,8 @@
 package com.study.locadora.service;
 
+import com.study.locadora.exception.CarroJaExisteException;
+import com.study.locadora.exception.CarroNaoExisteException;
+import com.study.locadora.mapper.CarMapper;
 import com.study.locadora.model.Car;
 import com.study.locadora.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,43 +11,60 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+//estereótipo: Service, Component, Repository, Bean
 @Service
 @RequiredArgsConstructor
-public class CarServiceImpl implements CarService{
+public class CarServiceImpl implements CarService {
+
     private final CarRepository repository;
 
+    @Override
     public List<Car> findAll() {
         return repository.findAll();
     }
 
+    @Override
     public Optional<Car> findById(final String placa) {
         return repository.findById(placa);
     }
 
-    public List<Car> findByDescricao(final String descricao) {
-        return repository.findByDescricaoContaining(descricao);
-    }
+    @Override
+    public Car save(final Car entity) {
 
-    public Car save(final Car carro) {
-        return repository.save(carro);
-    }
-
-    public Optional<Car> update(final String placa, final Car carroAtualizado) {
-        final Optional<Car> carOptional = findById(placa);
-
-        if (carOptional.isPresent()) {
-            final Car carroEncontrado = carOptional.get();
-            carroEncontrado.setAno(carroAtualizado.getAno());
-            carroEncontrado.setDescricao(carroAtualizado.getDescricao());
-            carroEncontrado.setPlaca(carroAtualizado.getPlaca());
-            repository.save(carroEncontrado);
+        if(repository.findById(entity.getPlaca()).isPresent()) {
+            throw new CarroJaExisteException("O carro com placa " + entity.getPlaca() + " ja existe.");
         }
 
-        return carOptional;
+        return repository.save(entity);
     }
 
+    @Override
+    public Optional<Car> update(final String placa,
+                                final Car newCarInfo) {
+
+        final Optional<Car> carOptional = repository.findById(placa);
+
+        if (carOptional.isPresent()) {
+            final Car entity = carOptional.get();
+
+            CarMapper.copy(newCarInfo, entity);
+
+            repository.save(entity);
+
+            return Optional.of(newCarInfo);
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public void delete(final String placa) {
-        final Optional<Car> carOptional = findById(placa);
-        carOptional.ifPresent(repository::delete);
+        Optional<Car> entity = repository.findById(placa);
+
+        if(entity.isPresent()) {
+            repository.delete(entity.get());
+        }
+
+        throw new CarroNaoExisteException("O carro com placa " + placa + " nao existe.");
     }
 }

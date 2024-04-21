@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface CarService {
     List<Car> findAll();
-    List<Car> findByDescricao(final String descricao);
     Optional<Car> findById(final String placa);
     Car save(final Car carro);
     Optional<Car> update(final String placa, final Car carroAtualizado);

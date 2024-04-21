@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,16 +16,14 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="Carro")
-public class Car {
+@Table(name="Cliente")
+public class Customer {
 
     @Id
-    private String placa;
+    @GeneratedValue
+    private Long id;
 
-    @Column(nullable = false)
-    private String descricao;
-
-    @Column(nullable = false)
-    private Integer ano;
+    @Column(nullable = false, unique = true)
+    private String name;
 
 }
