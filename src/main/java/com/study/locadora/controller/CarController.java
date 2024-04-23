@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.study.locadora.mapper.CarMapper.toDto;
@@ -39,7 +40,10 @@ public class CarController {
     }
 
     @GetMapping(params = {"desc"})
-    public ResponseEntity<List<CarDto>> findByDescricao(@RequestParam("desc") final String descricao) {
+    public ResponseEntity<List<CarDto>> findByDescricao(
+            @RequestParam(name="desc", required = false) final String descricao)
+    {
+        if (Objects.isNull(descricao)) return findAll();
         log.info(descricao);
         return ResponseEntity.ok(toDto(service.findByDescricao(descricao)));
     }
