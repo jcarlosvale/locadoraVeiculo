@@ -12,6 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name="Carro")
@@ -34,4 +35,5 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CategoryEnum categoria;
 
+    private ZonedDateTime updated;
 }
