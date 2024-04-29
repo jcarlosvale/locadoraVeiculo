@@ -36,7 +36,7 @@ public class CarServiceImpl implements CarService{
             final Car carroEncontrado = carOptional.get();
             carroEncontrado.setAno(carroAtualizado.getAno());
             carroEncontrado.setDescricao(carroAtualizado.getDescricao());
-            carroEncontrado.setPlaca(carroAtualizado.getPlaca());
+//            carroEncontrado.setPlaca(carroAtualizado.getPlaca());
             repository.save(carroEncontrado);
         }
 

@@ -36,7 +36,11 @@ public class CarController {
 
     @GetMapping
     public ResponseEntity<List<CarDto>> findAll() {
-        return ResponseEntity.ok(toDto(service.findAll()));
+        return ResponseEntity
+                .ok()
+                .header("turma",
+                        "1139")
+                .body(toDto(service.findAll()));
     }
 
     @GetMapping(params = {"desc"})

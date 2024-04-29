@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class CarDto {
 
-    @NotBlank(message = "placa nao pode estar vazia")
+    //@NotBlank(message = "placa nao pode estar vazia")
     private String placa;
 
     @NotBlank(message = "descicao nao pode estar vazia")
